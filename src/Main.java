@@ -17,7 +17,7 @@ public class Main {
         
 
         while (seguirEnBucle) {
-            System.out.print("Quiere hacer Ingreso / Gasto / Salir? ");
+            System.out.print("Quiere hacer Ingreso (I) / Gasto (G) / Salir (S) ? ");
             String respuesta = scanner.nextLine();
             float cantidad;
             String concepto;
@@ -28,11 +28,11 @@ public class Main {
 
             switch (respuesta.toUpperCase()) {
                 case "I":
-                    cantidad = validador.pideNumero("Cantida:","Debe ser un numero valido");
+                    cantidad = validador.pideNumero("Cantida: ","Debe ser un numero valido");
                     
-                    concepto = validador.pideConcepto("Concepto:", "Debes introducir un concepto de", 5);
+                    concepto = validador.pideConcepto("Concepto: ", "Debes introducir un concepto de", 5);
 
-                    fecha = validador.pideFecha("Fecha:","La fecha debe ser YYYY-MM-DD.");
+                    fecha = validador.pideFecha("Fecha: ","La fecha debe ser YYYY-MM-DD.");
 
                     catIngreso = validador.pideCatIngreso("Categoria Ingreso", "Elige una de las opciones");
                     
@@ -41,11 +41,11 @@ public class Main {
                     break;
                 case "G":
                     
-                    cantidad = validador.pideNumero("Cantida:","Debe ser un numero valido");
+                    cantidad = validador.pideNumero("Cantidad: ","Debe ser un numero valido");
 
-                    concepto = validador.pideConcepto("Concepto:", "Debes introducir un concepto de", 5);
+                    concepto = validador.pideConcepto("Concepto: ", "Debes introducir un concepto de", 5);
 
-                    fecha = validador.pideFecha("Fecha:","La fecha debe ser YYYY-MM-DD.");
+                    fecha = validador.pideFecha("Fecha: ","La fecha debe ser YYYY-MM-DD.");
 
                     catGasto = validador.pideCatGasto("Categoria Gasto", "Elige una de las opciones");
 

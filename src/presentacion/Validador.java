@@ -15,13 +15,18 @@ public class Validador {
         boolean fechaIncorrecta = true;
         String fecha;
         LocalDate resultado = null;
+        LocalDate today = LocalDate.now();
 
         while (fechaIncorrecta) {
             System.out.print(mensaje);
             fecha = scanner.nextLine();
             try {
                 resultado = LocalDate.parse(fecha);
-                fechaIncorrecta = false;
+                if(!resultado.isAfter(today)){
+                    fechaIncorrecta = false;
+                } else {
+                    System.out.println(msgError);
+                }
             } catch (DateTimeParseException err) {
                 System.out.println(msgError);
             }
@@ -40,13 +45,13 @@ public class Validador {
                 
                 if (valor > 0){
                     valorIncorrecto = false;
+                } else {
+                    System.out.println("Debe ser un numero positivo");
                 }
-                scanner.nextLine();   
             } catch (InputMismatchException err) {
                 System.out.println(msgError);
-                scanner.nextLine();
             }
-            
+        scanner.nextLine();
         }
 
         return valor;
@@ -134,14 +139,17 @@ public class Validador {
                 System.out.print(mensaje);
                 
                 concepto = scanner.nextLine();
-
+                
                 if (concepto.length() >= Longitudmin){
                     conceptoIncorrecto = false;
+                } else {
+                    System.out.printf("La longitud debe ser al menos %d caracteres \n", Longitudmin);
                 }
-    
+                
             } catch (InputMismatchException err) {
                 System.out.println(msgError);
             }
+            
         }
         return concepto;
     }
