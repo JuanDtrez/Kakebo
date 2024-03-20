@@ -6,11 +6,15 @@ import java.util.Scanner;
 import src.logica.CategoriaGasto;
 import src.logica.CategoriaIngreso;
 import src.logica.Cuenta;
+
+import src.logica.Gasto;
+import src.logica.Ingreso;
 import src.presentacion.Validador;
 
 public class Main {
     public static void main(String[] args) {
-        Cuenta acumulador = new Cuenta();
+        Cuenta acumulador = new Cuenta("./data/movimientos.dat");
+        acumulador.leerFichero();
         boolean seguirEnBucle = true;
         Scanner scanner = new Scanner(System.in);
         Validador validador = new Validador();
@@ -37,7 +41,8 @@ public class Main {
                     catIngreso = validador.pideCatIngreso("Categoria Ingreso", "Elige una de las opciones");
                     
                     acumulador.ingresar(cantidad, catIngreso, fecha, concepto);
-
+                    new Ingreso(fecha, concepto, cantidad, catIngreso).save("./data/movimientos.dat");
+                    
                     break;
                 case "G":
                     
@@ -50,6 +55,8 @@ public class Main {
                     catGasto = validador.pideCatGasto("Categoria Gasto", "Elige una de las opciones");
 
                     acumulador.gastar(cantidad, catGasto, fecha, concepto);
+                    Gasto gasto = new Gasto(fecha, concepto, cantidad, catGasto);
+                    gasto.save("./data/movimientos.dat");
                     
                     break;
                 case "S": // Si no es I G o S habra que volver a pedir

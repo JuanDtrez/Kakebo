@@ -1,5 +1,8 @@
 package src.logica;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -8,17 +11,19 @@ public class Cuenta {
     private float ingresos;
     private float gastos;
     private ArrayList<Movimiento> listaMovimientos = new ArrayList<>();    
+    private String fichero;
     
 
     // Constructor principal
-    public Cuenta(float saldo) {
+    public Cuenta(float saldo, String fichero) {
         this.saldo = saldo;
         ingresos = 0;
         gastos = 0;
+        this.fichero = fichero;
     }
 
-    public Cuenta() {
-        this(0);  // equivale a llamar a Cuenta(0)
+    public Cuenta(String fichero) {
+        this(0, fichero);  // equivale a llamar a Cuenta(0)
     }
 
     public float getSaldo() {
@@ -79,4 +84,27 @@ public class Cuenta {
         return listaMovimientos.toArray(new Movimiento[0]);
     }
 
+    public void leerFichero() {
+        try (BufferedReader br = new BufferedReader(new FileReader(fichero))){
+            String linea;
+            
+            while((linea = br.readLine())!= null) {
+                String [] campos = linea.split(",");
+                LocalDate fecha = LocalDate.parse(campos[0]);
+                String concepto = campos[1];
+                float cantidad = Float.parseFloat(campos[2]);
+                String tipo = campos[4];
+                if (tipo.equals("I")) {
+                    CategoriaIngreso categoria = CategoriaIngreso.valueOf(campos[3]);
+                    this.ingresar(cantidad, categoria, fecha, concepto);
+                }else {
+                    CategoriaGasto categoria = CategoriaGasto.valueOf(campos[3]);
+                    this.gastar(cantidad, categoria, fecha, concepto);
+                }
+            }
+        } catch (IOException err) {
+            System.out.println("Se ha producido un error en la lectura de ficheros");
+            err.printStackTrace();
+        }
+    }
 }
